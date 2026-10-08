@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Every colour is a role token, so light/dark swap in one place */
+@theme inline {
+  --color-page: var(--page);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-grid: var(--grid);
+  --color-axis: var(--axis);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-up: var(--up);
+  --color-down: var(--down);
+
+  --color-s1: var(--s1); /* Starter */
+  --color-s2: var(--s2); /* Pro */
+  --color-s3: var(--s3); /* Business */
+  --color-pos: var(--pos); /* new customers */
+  --color-neg: var(--neg); /* churned customers */
+
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+:root {
+  color-scheme: light;
+  --page: #f4f4f1;
+  --surface: #fcfcfb;
+  --raised: #ffffff;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #7a7873;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --line: rgb(11 11 11 / 0.1);
+  --accent: #2a78d6;
+  --up: #006300;
+  --down: #b42318;
+
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --pos: #2a78d6;
+  --neg: #e34948;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --raised: #222221;
+  --ink: #ffffff;
+  --ink-2: #c3c2b7;
+  --muted: #9a988f;
+  --grid: #2c2c2a;
+  --axis: #383835;
+  --line: rgb(255 255 255 / 0.1);
+  --accent: #3987e5;
+  --up: #2fbf2f;
+  --down: #f07a70;
+
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --pos: #3987e5;
+  --neg: #e66767;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/* charts hold their frame and fade while filters change */
+.chart-fade { transition: opacity 160ms ease; }
+
+@keyframes draw { from { stroke-dashoffset: var(--len); } to { stroke-dashoffset: 0; } }
+.draw-line { stroke-dasharray: var(--len); animation: draw 900ms ease-out both; }
+
+@keyframes grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+.grow { transform-box: fill-box; animation: grow 500ms cubic-bezier(.2,.7,.2,1) both; }
+
+@keyframes fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.fade-up { animation: fade-up 400ms ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+@media (forced-colors: active) {
+  svg [data-series] { forced-color-adjust: none; }
+}
